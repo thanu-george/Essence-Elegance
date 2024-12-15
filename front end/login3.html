@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essence and Elegance - Login</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #fcefee;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 350px;
+        }
+        h1 {
+            font-size: 2.5em;
+            color: #ff6f91;
+            margin-bottom: 0.5em;
+            font-family: 'Dancing Script', cursive;
+        }
+        .tagline {
+            font-size: 1.1em;
+            color: #7e7e7e;
+            margin-bottom: 20px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .input-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #ff6f91;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ffe3e9;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+        .input-group input:focus {
+            border-color: #ff6f91;
+            outline: none;
+        }
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #ff6f91;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #ff4d71;
+        }
+        .forgot-password {
+            margin-top: 10px;
+        }
+        .forgot-password a {
+            color: #ff6f91;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h1>ESSENCE and ELEGANCE</h1>
+        <p class="tagline">Welcome back, beautiful soul</p>
+        <form id="loginForm" onsubmit="return validateForm()">
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn">Login</button>
+        </form>
+        <div class="forgot-password">
+            <a href="#">Forgot your password?</a>
+        </div>
+    </div>
+
+    <script>
+        function validateForm() {
+            // Get form inputs
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            
+            // Check if both fields are filled
+            if (username === "" || password === "") {
+                alert("Please fill in both username and password.");
+                return false; // Prevent form submission
+            }
+
+            // Basic success message (for demonstration)
+            alert("Login successful! Welcome, " + username + ".");
+            return true; // Allow form submission
+        }
+    </script>
+
+</body>
+</html>

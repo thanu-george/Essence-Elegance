@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essence and Elegance - Home</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fcefee;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #ff6f91;
+        }
+        .navbar h1 {
+            color: #D81B60;
+   	    font-family: 'Dancing Script', cursive;
+    	    font-size: 2em;
+        }
+        .navbar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+        .navbar ul li {
+            margin-left: 20px;
+            position: relative;
+        }
+        .navbar ul li a {
+            text-decoration: none;
+            color: #D81B60;
+            font-size: 1.1em;
+        }
+
+        /* Dropdown Menu for Login */
+        .dropdown {
+            position: relative;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            background-color: #ff6f91;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            min-width: 120px;
+            border-radius: 5px;
+            text-align: left;
+        }
+        .dropdown-content a {
+            color: #D81B60;
+            padding: 10px;
+            display: block;
+            text-decoration: none;
+        }
+        .dropdown-content a:hover {
+            background-color: #f9c2d1;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Profile, Cart, and Search Icons */
+        .icons {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .icons img {
+            width: 25px;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background-image: url('https://www.glowrecipe.com/cdn/shop/files/CONTENT_SLOT_SKINQUIZ_600x1000_3_12_24_2_1950x.png?v=1712855130');
+            background-size: cover;
+            background-position: center;
+            height: 70vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #D81B60;
+            text-align: center;
+        }
+        .hero h2 {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        .hero p {
+            font-size: 1.5em;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        /* Categories Section */
+        .categories {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+        }
+        .categories h2 {
+            font-size: 32px;
+            color: #D81B60;
+            margin-bottom: 20px;
+        }
+        .categories .category-item {
+            width: 200px;
+            margin: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+            display: inline-block;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        .categories .category-item:hover {
+            transform: scale(1.05);
+        }
+        .categories img {
+          width: 100%;
+          height: auto;  
+        }
+        .categories p {
+            color: #D81B60;
+            font-size: 1.2em;
+            padding: 10px 0;
+            background-color: #ff6f91;
+            margin: 0;
+            font-weight: bold;
+        }
+       
+        /* Best Sellers */
+        .best-sellers{
+          text-align: center;
+          margin-top: 10px;
+         }
+
+	.best-sellers h2{
+	  font-size: 32px;
+	  color: #D81B60;
+ 	  margin bottom: 10px;
+	 }
+
+        /* Gallery Section */
+        .gallery {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            padding: 50px;
+        }
+        .gallery img {
+            width: 30%;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+
+        /* Footer */
+        .footer {
+            background-color: #ff6f91;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 20px;
+        }
+        .footer p {
+            margin: 0;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <h1>Essence and Elegance</h1>
+        <ul>
+            <li><a href="home.html"><img src="https://img.icons8.com/?size=100&id=43719&format=png&color=000000" alt="Search" title="Search"></a></li>
+            <li class="dropdown">
+                <a href="#" class="profile-link"><img src="https://img.icons8.com/?size=100&id=51716&format=png&color=000000" alt="Profile" title="Profile"></a>
+                <div class="dropdown-content">
+                    <a href="login3.html">Login</a>
+                    <a href="signup4.html">Sign Up</a>
+                </div>
+            </li>
+            <li><a href="#"><img src="https://img.icons8.com/?size=100&id=43866&format=png&color=000000" alt="Cart" title="Cart"></a></li>
+            <li><a href="about3.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div>
+            <h2>Embrace Your Natural Beauty</h2>
+            <p>At Essence and Elegance, we believe in enhancing your natural glow with tailored skincare solutions.</p>
+        </div>
+    </div>
+
+    <!-- Categories Section -->
+    <div class="categories">
+        <h2>Categories</h2>
+        <div class="category-item">
+            <a href="moisturiser.html">
+                <img src="https://www.glowrecipe.com/cdn/shop/files/NEW5_14_24_PDP_CLAIM_REFRESH_PLUM_CREAM-01_600x.jpg?v=1718218413" alt="Moisturiser">
+                <p>Moisturiser</p>
+            </a>
+        </div>
+        <div class="category-item">
+            <a href="serum.html">
+                <img src="https://www.glowrecipe.com/cdn/shop/files/Untitled-1Artboard-1_3.png?v=1724193166" alt="Serum">
+                <p>Serum</p>
+            </a>
+        </div>
+        <div class="category-item">
+            <a href="cleanser.html">
+                <img src="https://www.glowrecipe.com/cdn/shop/files/5_14_24_PDP_CLAIM_REFRESH_BB_CLEANSER-01_600x.jpg?v=1718211492" alt="Cleanser">
+                <p>Cleanser</p>
+            </a>
+        </div>
+        <div class="category-item">
+            <a href="toner.html">
+                <img src="https://www.glowrecipe.com/cdn/shop/files/PDP_IMAGES_Watermelon-Glow-PHA_BHA-Pore-Tight-Toner-2_600x.jpg?v=1718217387" alt="Toner">
+                <p>Toner</p>
+            </a>
+        </div>
+        <div class="category-item">
+            <a href="skinquiz2.html">
+                <img src="https://www.glowrecipe.com/cdn/shop/files/5_14_24_PDP_CLAIM_REFRESH_BB_CLEANSER-02_600x.jpg?v=1718211492" alt="skinquiz">
+                <p>Skin Quiz</p>
+            </a>
+        </div>
+    </div>
+
+   <!-- Best Sellers -->
+    <div class="best-sellers">
+	 <div>
+	       <h2>Best Sellers</h2>
+	 </div>     
+    </div>
+
+    <!-- Gallery Section -->
+    <div class="gallery">
+        <img src="https://www.glowrecipe.com/cdn/shop/files/Untitled-1Artboard-1_3.png?v=1724193166" alt="BLACKBERRY RETINOL Blemish serum">
+        <img src="https://www.glowrecipe.com/cdn/shop/files/NEW5_14_24_PDP_CLAIM_REFRESH_PLUM_CREAM-01_600x.jpg?v=1718218413" alt="PLUM PLUM HYALURONIC CREAM">
+        <img src="https://www.glowrecipe.com/cdn/shop/files/PDP_IMAGES_Watermelon-Glow-PHA_BHA-Pore-Tight-Toner-2_600x.jpg?v=1718217387" alt="WATERMELON GLOW PHA * BHAPORE-TIGHT TONER">
+        <img src="https://www.glowrecipe.com/cdn/shop/files/5_14_24_PDP_CLAIM_REFRESH_CLOUDBERRY-08_600x.jpg?v=1718212429" alt="BLACKBERRY RETINOL Blemish serum">
+        <img src="https://www.glowrecipe.com/cdn/shop/files/10_23_24_LIP_LAUNCH_PDP2_600x.png?v=1729545607" alt="PLUM PLUM HYALURONIC CREAM">
+        <img src="https://www.glowrecipe.com/cdn/shop/files/NEW5_14_24_PDP_CLAIM_REFRESH_GUAVA_SERUM-01_1080x.jpg?v=1718213526" alt="WATERMELON GLOW PHA * BHAPORE-TIGHT TONER">
+    </div>
+
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2024 Essence and Elegance. All Rights Reserved.</p>
+    </div>
+
+</body>
+</html>

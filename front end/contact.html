@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essence and Elegance - Contact Us</title>
+    <link rel="stylesheet" href="styles2.css">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #fcefee;
+            color: #BC8F8F;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header Styling */
+        header {
+            background-color: #FFC0CB;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        header nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+        }
+
+        header nav ul li {
+            margin: 0 15px;
+        }
+
+        header nav ul li a {
+            color: #DC143C;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        header nav ul li a:hover {
+            color: #ff6666;
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: #FFC0CB;
+            color: #DC143C;
+            text-align: center;
+            padding: 15px;
+            margin-top: auto;
+        }
+
+        /* Main Content Styling */
+        main {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .contact-us {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .contact-us h1 {
+            font-size: 2.5em;
+            color: #DB7093;
+            font-family: 'Dancing Script', cursive;
+            margin-bottom: 10px;
+        }
+
+        .contact-us p {
+            font-size: 1.2em;
+            color: #7e7e7e;
+            margin-bottom: 20px;
+        }
+
+        /* Form Styling */
+        .contact-us form {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .contact-us form label {
+            font-weight: bold;
+            color: #ff6f91;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+
+        .contact-us form input,
+        .contact-us form textarea {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #ffe3e9;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+
+        .contact-us form input:focus,
+        .contact-us form textarea:focus {
+            border-color: #ff6f91;
+            outline: none;
+        }
+
+        .contact-us form button {
+            background-color: #ff6f91;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .contact-us form button:hover {
+            background-color: #ff4d71;
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Content -->
+    <main>
+        <section class="contact-us">
+            <h1>Contact Us</h1>
+            <p>If you have any questions or need assistance, please feel free to reach out to us.</p>
+            <form action="#" method="POST">
+                <div class="input-group">
+                    <label for="name">Full Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="input-group">
+                    <label for="email">Email Address:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="input-group">
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                </div>
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Essence and Elegance. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

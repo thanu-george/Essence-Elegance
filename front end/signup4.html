@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essence and Elegance - Sign Up</title>
+    <style>
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #fcefee;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        
+        .signup-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 350px;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            color: #ff6f91;
+            margin-bottom: 0.5em;
+            font-family: 'Dancing Script', cursive;
+        }
+        
+        .tagline {
+            font-size: 1.1em;
+            color: #7e7e7e;
+            margin-bottom: 20px;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        
+        .input-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #ff6f91;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ffe3e9;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+        
+        .input-group input:focus {
+            border-color: #ff6f91;
+            outline: none;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #ff6f91;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: #ff4d71;
+        }
+        
+        .terms {
+            display: flex;
+            align-items: center;
+            font-size: 0.9em;
+            color: #7e7e7e;
+            margin-bottom: 15px;
+        }
+        
+        .terms input {
+            margin-right: 8px;
+        }
+        
+        .terms a {
+            color: #ff6f91;
+            text-decoration: none;
+        }
+        
+        .terms a:hover {
+            text-decoration: underline;
+        }
+        
+        .login-link {
+            font-size: 0.9em;
+            color: #7e7e7e;
+            margin-top: 20px;
+        }
+        
+        .login-link a {
+            color: #ff6f91;
+            text-decoration: none;
+        }
+        
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="signup-container">
+        <h1>ESSENCE and ELEGANCE</h1>
+        <p class="tagline">Join us, beautiful soul</p>
+        <form id="signupForm" onsubmit="return validateSignupForm()">
+            <div class="input-group">
+                <label for="name">Name</label>
+                <input type="text" id="last-name" name="last-name" required>
+            </div>
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="input-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" placeholder="1234567890">
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="input-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" name="confirm-password" required>
+            </div>
+
+            <!-- Terms and Conditions Checkbox -->
+            <div class="terms">
+                <input type="checkbox" id="agree" required>
+                <label for="agree">I agree to the <a href="#">Terms and Conditions</a></label>
+            </div>
+            
+            <button type="submit" class="btn">Sign Up</button>
+        </form>
+        
+        <!-- Already have an account link -->
+        <div class="login-link">
+            Already have an account? <a href="login3.html">Login here</a>
+        </div>
+    </div>
+
+    <script>
+        function validateSignupForm() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const agreeCheckbox = document.getElementById('agree');
+            
+            if (password !== confirmPassword) {
+                alert("Passwords do not match.");
+                return false;
+            }
+            
+            if (!agreeCheckbox.checked) {
+                alert("You must agree to the Terms and Conditions.");
+                return false;
+            }
+            
+            alert("Sign-up successful! Welcome!");
+            return true;
+        }
+    </script>
+
+
+<script>
+    // Listen for form submission
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+        e.preventDefault(); // Prevent default form submission
+        
+        const name = document.getElementById('Name').value;
+        const email = document.getElementById('Email').value;
+        const password = document.getElementById('Password').value;
+        const signupError = document.getElementById('signupError');
+
+        if (!name || !email || !password) {
+            signupError.style.color = '#ff416c';
+            signupError.textContent = 'All fields are required!';
+            return;
+        }
+
+        try {
+            const response = await fetch('https://adora-t8e8.onrender.com/api/user/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, email, password }),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                // Show success message
+                signupError.style.color = 'green';
+                signupError.textContent = 'Registration successful! Please log in.';
+                
+                // Reset form fields after successful sign-up
+                document.getElementById('signupForm').reset();
+
+                // Redirect to login page after 2 seconds
+                setTimeout(() => {
+                    window.location.href = 'login.html'; // Redirect to the login page
+                }, 2000);
+            } else {
+                signupError.style.color = '#ff416c';
+                signupError.textContent = data.message || 'Registration failed. Please try again.';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            signupError.style.color = '#ff416c';
+            signupError.textContent = 'An error occurred. Please try again.';
+        }
+    });
+</script>
+
+</body>
+</html>
