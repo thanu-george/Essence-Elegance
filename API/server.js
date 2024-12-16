@@ -1,18 +1,38 @@
-import express from 'express'
-import mongoose from 'mongoose'
-import userRouter from './Routes/user.js'
-import productRouter from './Routes/product.js'
+import express from 'express';
+import mongoose from 'mongoose';
+import userRouter from './Routes/user.js';
+import productRouter from './Routes/product.js';
+import path from 'path';
+import url from 'url';
 
-const app=express();
+const app = express();
 
-app.use(express.json())
-app.get('/',(req,res)=>res.json({message:"home route"}))
-app.use('/api/user',userRouter)
-app.use('/api/product',productRouter)
+// Middleware for parsing JSON requests
+app.use(express.json());
 
-mongoose.connect("mongodb+srv://thanu:pbiNGh69XIOPGUTR@fwd.kipps.mongodb.net/",{
-    dbName:"fwd"}
-).then(()=>console.log('MongoDB connected')).catch((err)=>console.log(err));
+// API routes
+app.use('/api/user', userRouter);
+app.use('/api/product', productRouter);
 
-const port=1000;
-app.listen(port,()=>console.log(`Server is running on port ${port}`))
+// Get the current directory path using import.meta.url
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
+
+// Serve static files (HTML, CSS, JS) from the 'frontend' folder
+app.use(express.static(path.join(__dirname, '../frontend'))); // Ensure the correct path to the 'frontend' folder
+
+// Handle all other routes (for single-page apps or fallback to index.html)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend', 'i1.html')); // Serve index.html
+});
+
+// MongoDB connection
+const mongoURI = "mongodb+srv://Thanu:<db_password>@ese.ipuoz.mongodb.net/";
+mongoose.connect(mongoURI)
+  .then(() => console.log('MongoDB connected'))
+  .catch((err) => console.log('MongoDB connection error:', err));
+
+// Set the server port (ensure you use an appropriate port for production or development)
+const port = process.env.PORT || 1000;
+app.listen(port, () => console.log(`Server running on port ${port}`));
+
+

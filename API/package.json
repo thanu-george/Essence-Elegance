@@ -2,10 +2,9 @@
   "name": "api",
   "version": "1.0.0",
   "main": "server.js",
-  "devDependencies": {},
-  "type":"module",
+  "type": "module",
   "scripts": {
-    "start": "node server.js"
+    "start": "node API/server.js"
   },
   "keywords": [],
   "author": "",
