@@ -26,7 +26,7 @@ app.get('*', (req, res) => {
 });
 
 // MongoDB connection
-const mongoURI = "mongodb+srv://Thanu:<db_password>@ese.ipuoz.mongodb.net/";
+const mongoURI = "mongodb+srv://thanucs23:thanu23@ese.vew8g.mongodb.net/?retryWrites=true&w=majority&appName=ESE";
 mongoose.connect(mongoURI)
   .then(() => console.log('MongoDB connected'))
   .catch((err) => console.log('MongoDB connection error:', err));

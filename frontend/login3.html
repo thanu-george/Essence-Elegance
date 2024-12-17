@@ -82,11 +82,10 @@
     </style>
 </head>
 <body>
-
     <div class="login-container">
         <h1>ESSENCE and ELEGANCE</h1>
-        <p class="tagline">Welcome back, beautiful soul</p>
-        <form id="loginForm" onsubmit="return validateForm()">
+        <p class="tagline">Welcome back, beautiful soul</p>          
+        <form id="loginForm">
             <div class="input-group">
                 <label for="username">Username</label>
                 <input type="text" id="username" name="username" required>
@@ -97,27 +96,58 @@
             </div>
             <button type="submit" class="btn">Login</button>
         </form>
-        <div class="forgot-password">
-            <a href="#">Forgot your password?</a>
-        </div>
     </div>
-
     <script>
-        function validateForm() {
-            // Get form inputs
-            var username = document.getElementById('username').value;
-            var password = document.getElementById('password').value;
-            
-            // Check if both fields are filled
-            if (username === "" || password === "") {
-                alert("Please fill in both username and password.");
-                return false; // Prevent form submission
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Get input values
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const loginError = document.getElementById('signupError');
+
+            loginError.textContent = '';
+
+            // Validate inputs
+            if (!username || !password) {
+                loginError.style.color = '#ff416c';
+                loginError.textContent = 'All fields are required!';
+                return;
             }
 
-            // Basic success message (for demonstration)
-            alert("Login successful! Welcome, " + username + ".");
-            return true; // Allow form submission
-        }
+            try {
+                // Make API request
+                const response = await fetch('http://localhost:1000/api/user/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name: username, password }),
+                });
+
+                // Parse response
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                     // Show success message
+                loginError.style.color = 'green';
+                loginError.textContent = 'login successful!';
+
+                // Reset form fields after successful sign-up
+                document.getElementById('loginForm').reset();
+
+                // Redirect to login page after 2 seconds
+                setTimeout(() => {
+                    window.location.href = 'i1.html'; // Redirect to the login page
+                }, 2000);
+                } else {
+                    alert("Error: " + result.message);
+                }
+            } catch (error) {
+                console.error("Error connecting to the API:", error);
+                alert("An error occurred while processing your request.");
+            }
+        });
     </script>
 </body>
 </html>
