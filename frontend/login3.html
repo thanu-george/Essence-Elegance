@@ -84,7 +84,8 @@
 <body>
     <div class="login-container">
         <h1>ESSENCE and ELEGANCE</h1>
-        <p class="tagline">Welcome back, beautiful soul</p>          
+        <p class="tagline">Welcome back, beautiful soul</p>
+        <p id="loginError"></p>           
         <form id="loginForm">
             <div class="input-group">
                 <label for="username">Username</label>
@@ -101,10 +102,9 @@
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            // Get input values
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-            const loginError = document.getElementById('signupError');
+            const loginError = document.getElementById('loginError');
 
             loginError.textContent = '';
 
@@ -130,7 +130,7 @@
 
                 if (response.ok && result.success) {
                      // Show success message
-                loginError.style.color = 'green';
+                loginError.style.color = 'pink';
                 loginError.textContent = 'login successful!';
 
                 // Reset form fields after successful sign-up

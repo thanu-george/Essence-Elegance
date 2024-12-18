@@ -3,8 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="quiz.css">
     <title>Skin Type Quiz</title>
+    <style>
+        body {
+    background-color: #FFE4E1;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #ff6f91;
+}
+
+.navbar h1 {
+    color: #D81B60;
+    font-family: 'Dancing Script', cursive;
+    font-size: 2em;
+}
+
+.navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+main {
+    padding: 20px;
+    text-align: center;
+}
+
+h3 {
+    font-weight: bolder;
+    color:#D81B60 ;
+    font-size: 1.8em;
+    margin-bottom: 30px;
+}
+
+.quiz-box {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 15px auto;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-box p {
+    font-size: 1.2em;
+    color:#D81B60 ;
+    margin-bottom: 10px;
+}
+
+.quiz-box label {
+    color:palevioletred ;
+    display: block;
+    margin-bottom: 8px;
+    font-size: 1.1em;
+}
+
+.submit {
+    margin-top: 20px;
+}
+
+.submit input {
+    background-color: #ff6f91;
+    border: none;
+    padding: 10px 20px;
+    color: white;
+    font-size: 1.2em;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.submit input:hover {
+    background-color: #ff4f7d;
+}
+    </style>
 </head>
 <body>
 
@@ -83,6 +164,51 @@
             </div>
         </form>
     </main>
+    <script>
+        document.getElementById('quiz-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission and page reload
+            
+            // Collect all the selected answers
+            const form = event.target;
+            const answers = Array.from(form.elements)
+                .filter(element => element.checked)
+                .map(element => element.value);
+    
+            // Count occurrences of each answer type (A, B, C, D, E)
+            const answerCounts = answers.reduce((counts, answer) => {
+                counts[answer] = (counts[answer] || 0) + 1;
+                return counts;
+            }, {});
+    
+            // Determine the skin type based on answerCounts
+            const result = determineSkinType(answerCounts);
+    
+            // Display the result
+            const resultContainer = document.createElement('div');
+            resultContainer.className = 'result';
+            resultContainer.innerText = `Your Skin Type: ${result}`;
+            form.appendChild(resultContainer);
+        });
+    
+        function determineSkinType(counts) {
+            const { A = 0, B = 0, C = 0, D = 0, E = 0 } = counts;
+    
+            if (A >= B && A >= C && A >= D && A >= E) {
+                return 'Oily Skin';
+            } else if (B >= A && B >= C && B >= D && B >= E) {
+                return 'Dry Skin';
+            } else if (C > A && C > B && C > D && C > E) {
+                return 'Combination Skin';
+            } else if (C >= B && C >= D && B > 0 && D > 0) {
+                return 'Normal Skin';
+            } else if (E >= A && E >= B && E >= C && E >= D) {
+                return 'Sensitive Skin';
+            } else {
+                return 'Unable to determine skin type. Try again!';
+            }
+        }
+    </script>
+    
 
 </body>
 </html>

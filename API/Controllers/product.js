@@ -1,26 +1,41 @@
-import { Products } from "../Models/Product.js"
+import { Product } from "../Models/Product.js";
 
-export const addprod = async (req,res)=>{
-    const{pid,title,price,qty}=req.body
-    try{
-        let product= await Products.create({
-            pid,title,price,qty
+export const addprod = async (req, res) => {
+    const { pid,name,price,category,qty } = req.body;
+    try {
+        const product = await Product.create({
+            pid,name,price,category,qty 
         });
-        res.json({message:"product added succesfully",product,success:true})
-    }catch (error){
-        res.json({message:error.message})
+        res.status(201).json({ message: "Product added successfully", product, success: true });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 };
-export const findprod=async(req,res)=>{
-    const {id}=req.params
-    let product=await Products.findOneAndUpdate ({pid:id})
-    if(!product) return res.json({message:"not found"})
-    res.json({message:"product:", product})
-};
-export const updateprod=async(req,res)=>{
-    const { id } = req.params;
+
+// Update an existing product
+export const updateprod = async (req, res) => {
+    const { pid } = req.params;
     const updateData = req.body;
-    const product = await Products.findOneAndUpdate({ pid: id },updateData,{ new: true })
-    if(!product) return res.json({message:"not found"})
-    res.json({message:"product has been updated"})
+    try {
+        const product = await Product.findOneAndUpdate({ pid }, updateData, { new: true });
+        if (!product) return res.status(404).json({ message: "Product not found" });
+        res.json({ message: "Product has been updated", product });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };
+
+export const getprod = async (req, res) => {
+    const { pid } = req.params;
+    try {
+      const product = await Product.findOne({pid:pid});  // Correct usage of findById
+      if (!product) {
+        return res.status(404).json({ message: "Product not found" });
+      }
+      res.status(200).json(product);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch product", error });
+    }
+};
+  
+
