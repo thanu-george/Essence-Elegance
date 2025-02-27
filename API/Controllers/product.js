@@ -1,10 +1,10 @@
 import { Product } from "../Models/Product.js";
 
 export const addprod = async (req, res) => {
-    const { pid,name,price,category,qty } = req.body;
+    const { pid,name,price,category,qty,url } = req.body;
     try {
         const product = await Product.create({
-            pid,name,price,category,qty 
+            pid,name,price,category,qty,url 
         });
         res.status(201).json({ message: "Product added successfully", product, success: true });
     } catch (error) {
@@ -28,7 +28,7 @@ export const updateprod = async (req, res) => {
 export const getprod = async (req, res) => {
     const { pid } = req.params;
     try {
-      const product = await Product.findOne({pid:pid});  // Correct usage of findById
+      const product = await Product.findOne({pid:pid});  
       if (!product) {
         return res.status(404).json({ message: "Product not found" });
       }

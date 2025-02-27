@@ -64,19 +64,6 @@ body{
 .name{
     font-size: large;
 }
-.button {
-    display: inline-block;
-    background-color: palevioletred;
-    color: white;
-    text-decoration: none;
-    padding: 5px 10px;
-    font-size: 0.8em;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-.button:hover {
-    background-color: plum;
-}
 
 .desc {
     background-color: pink;

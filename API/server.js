@@ -2,33 +2,29 @@ import express from 'express';
 import mongoose from 'mongoose';
 import userRouter from './Routes/user.js';
 import productRouter from './Routes/product.js';
+import cartRouter from "./Routes/cart.js";
+import contRouter from './Routes/cont.js';
 import path from 'path';
 import url from 'url';
+import cors from 'cors';
 
-// Create an instance of the Express application
 const app = express();
+app.use(cors());
 
 // Middleware for parsing JSON requests
 app.use(express.json());
-
-// Middleware for parsing URL-encoded requests
 app.use(express.urlencoded({ extended: true }));
 
-// Set the view engine to EJS
-app.set('view engine', 'ejs');
-
-// Serve static files (e.g., images, CSS, JS) from the 'public' folder
 app.use(express.static('public'));
-
-// Get the current directory path using import.meta.url
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
-
-// Serve static files (HTML, CSS, JS) from the 'frontend' folder
-app.use(express.static(path.join(__dirname, '../frontend'))); // Ensure the correct path to the 'frontend' folder
+app.use(express.static(path.join(__dirname, '../frontend'))); 
 
 // API routes
-app.use('/api/user', userRouter);
+app.use('/api/cont', contRouter);
+app.use("/api/user", userRouter);
 app.use('/api/product', productRouter);
+app.use("/api/cart", cartRouter); // Cart routes
+
 
 // Handle all other routes (for single-page apps or fallback to index.html)
 app.get('*', (req, res) => {
@@ -36,14 +32,12 @@ app.get('*', (req, res) => {
 });
 
 // MongoDB connection
-const mongoURI = "mongodb+srv://thanucs23:thanu23@ese.vew8g.mongodb.net/?retryWrites=true&w=majority&appName=ESE";
+const mongoURI = process.env.MONGO_URI || "mongodb+srv://thanucs23:thanu23@ese.vew8g.mongodb.net/?retryWrites=true&w=majority&appName=ESE"; // Use environment variable for MongoDB URI
 mongoose.connect(mongoURI)
   .then(() => console.log('MongoDB connected'))
   .catch((err) => console.error('MongoDB connection error:', err));
 
 // Set the server port (ensure you use an appropriate port for production or development)
-const port = 1000; // Hardcoded port number for simplicity
+const port = process.env.PORT || 1000; // Use environment variable for port
 app.listen(port, () => console.log(`Server running on port ${port}`));
-
-
 

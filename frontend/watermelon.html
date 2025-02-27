@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Page - Watermelon Glow Moisturiser</title>
+  <link rel="stylesheet" href="pdesign.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <h1>Essence and Elegance</h1>
+  </div>
+
+  <!-- Product Page Content -->
+  <div class="product-page">
+    <div class="product-container">
+      <!-- Image Gallery -->
+      <div class="image-gallery">
+        <!-- Main Image Display -->
+        <div class="main-image">
+          <img id="mainDisplay" src="https://www.glowrecipe.com/cdn/shop/files/PDP_IMAGES_Watermelon-Glow-Pink-Juice-Oil-Free-Refillable-Moisturizer-2_1080x.jpg?v=1718221756" alt="Product Image">
+        </div>
+        <!-- Thumbnail Gallery -->
+        <div class="thumbnail-gallery">
+          <img src="https://www.glowrecipe.com/cdn/shop/files/PDP_IMAGES_Watermelon-Glow-Pink-Juice-Oil-Free-Refillable-Moisturizer-2_1080x.jpg?v=1718221756" onclick="changeImage('https://www.glowrecipe.com/cdn/shop/files/PDP_IMAGES_Watermelon-Glow-Pink-Juice-Oil-Free-Refillable-Moisturizer-2_1080x.jpg?v=1718221756', event)" class="active">
+          <img src="https://www.glowrecipe.com/cdn/shop/files/PDP_IMAGES_Watermelon-Glow-Pink-Juice-Oil-Free-Refillable-Moisturizer-4_1080x.jpg?v=1718221756" alt="Thumbnail 2" onclick="changeImage('https://www.glowrecipe.com/cdn/shop/files/PDP_IMAGES_Watermelon-Glow-Pink-Juice-Oil-Free-Refillable-Moisturizer-4_1080x.jpg?v=1718221756',event)">
+          <img src="https://www.glowrecipe.com/cdn/shop/files/PDP_IMAGES_Watermelon-Glow-Pink-Juice-Oil-Free-Refillable-Moisturizer-9_1080x.jpg?v=1718221756" alt="Thumbnail 3" onclick="changeImage('https://www.glowrecipe.com/cdn/shop/files/PDP_IMAGES_Watermelon-Glow-Pink-Juice-Oil-Free-Refillable-Moisturizer-9_1080x.jpg?v=1718221756', event)">
+        </div>
+      </div>
+      
+      <!-- Product Details -->
+      <div class="product-details">
+        <h1 class="product-title">Watermelon Glow Moisturiser</h1>
+        <p class="product-price">$21.00</p>
+        <hr>
+        <p class="product-description">
+            The oil-free and non-comedogenic formula is packed with watermelon, licorice root, and botanical extracts to soothe and visibly boost radiance while hyaluronic acid and glycerin lock in moisture for long-lasting hydration.
+        </p>
+
+        <hr>
+        <p class="important-details">
+            Benefits: Hydrate & boost radiance
+            <br>
+            Targets: Dryness & dullness
+            <br>
+            Clinically Effective Ingredients: Hyaluronic Acid
+        </p>
+        <button class="add-to-cart" id="addToCartButton">Add to Cart</button>
+      </div>
+  </div>
+
+  <script>
+    function changeImage(src, event) {
+        document.getElementById("mainDisplay").src = src;
+
+        // Remove active class from all thumbnails
+        const thumbnails = document.querySelectorAll('.thumbnail-gallery img');
+        thumbnails.forEach(img => img.classList.remove('active'));
+
+        // Add active class to the clicked thumbnail
+        event.target.classList.add('active');
+    }
+
+    document.getElementById('addToCartButton').addEventListener('click', async () => {
+        // No authentication check needed for guest cart
+        const productId = "67631e046d9d0feccd929ccd"; // Example product ID, this would come from the actual product
+        const title = "Watermelon Glow Moisturiser";
+        const price = 21.00;
+        const imageUrl = "https://www.glowrecipe.com/cdn/shop/files/PDP_IMAGES_Watermelon-Glow-Pink-Juice-Oil-Free-Refillable-Moisturizer-2_1080x.jpg?v=1718221756";
+        const qty = 1;
+
+        try {
+            const response = await fetch('http://localhost:1000/api/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // No Auth header needed for guest cart
+                },
+                body: JSON.stringify({ productId, title, price, imageUrl, qty })
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert("Item added to cart successfully!");
+            } else {
+                console.error(result.message);
+                alert("Failed to add item to cart.");
+            }
+        } catch (error) {
+            console.error("Error adding item to cart:", error);
+            alert("An error occurred while adding the item to the cart.");
+        }
+    });
+</script>
+</body>
+</html>

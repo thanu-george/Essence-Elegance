@@ -106,7 +106,7 @@
             const password = document.getElementById('password').value;
             const loginError = document.getElementById('loginError');
 
-            loginError.textContent = '';
+            loginError.textContent = ''; // Clear any previous error message
 
             // Validate inputs
             if (!username || !password) {
@@ -122,30 +122,36 @@
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ name: username, password }),
+                    body: JSON.stringify({ name: username, password })
                 });
 
                 // Parse response
                 const result = await response.json();
 
                 if (response.ok && result.success) {
-                     // Show success message
-                loginError.style.color = 'pink';
-                loginError.textContent = 'login successful!';
+                    // Show success message
+                    loginError.style.color = 'pink';
+                    loginError.textContent = 'Login successful!';
 
-                // Reset form fields after successful sign-up
-                document.getElementById('loginForm').reset();
+                    // Store the token in localStorage (or sessionStorage)
+                    const token = result.token; // Assuming the token is returned in the 'token' field
+                    localStorage.setItem('authToken', token); // Store the token
 
-                // Redirect to login page after 2 seconds
-                setTimeout(() => {
-                    window.location.href = 'i1.html'; // Redirect to the login page
-                }, 2000);
+                    // Reset form fields after successful login
+                    document.getElementById('loginForm').reset();
+
+                    // Redirect to the cart page after 1 second
+                    setTimeout(() => {
+                        window.location.href = 'i1.html'; // Redirect to the cart page
+                    }, 1000);
                 } else {
-                    alert("Error: " + result.message);
+                    loginError.style.color = '#ff416c';
+                    loginError.textContent = result.message || 'Login failed! Please try again.';
                 }
             } catch (error) {
                 console.error("Error connecting to the API:", error);
-                alert("An error occurred while processing your request.");
+                loginError.style.color = '#ff416c';
+                loginError.textContent = 'An error occurred while processing your request.';
             }
         });
     </script>

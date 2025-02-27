@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Page - Papaya Sorbet Enzyme Cleansing Balm</title>
+  <link rel="stylesheet" href="pdesign.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <h1>Essence and Elegance</h1>
+  </div>
+
+  <!-- Product Page Content -->
+  <div class="product-page">
+    <div class="product-container">
+      <!-- Image Gallery -->
+      <div class="image-gallery">
+        <!-- Main Image Display -->
+        <div class="main-image">
+          <img id="mainDisplay" src="https://www.glowrecipe.com/cdn/shop/files/NEW5_14_24_PDP_CLAIM_REFRESH_PAPAYA_BALM-03_1080x.jpg?v=1718217989" alt="Product Image">
+        </div>
+        <!-- Thumbnail Gallery -->
+        <div class="thumbnail-gallery">
+          <img src="https://www.glowrecipe.com/cdn/shop/files/NEW5_14_24_PDP_CLAIM_REFRESH_PAPAYA_BALM-03_1080x.jpg?v=1718217989" onclick="changeImage('https://www.glowrecipe.com/cdn/shop/files/NEW5_14_24_PDP_CLAIM_REFRESH_PAPAYA_BALM-03_1080x.jpg?v=1718217989', event)" class="active">
+          <img src="https://images-na.ssl-images-amazon.com/images/I/71tpo3H2w3L._UL500_.jpg" alt="Thumbnail 2" onclick="changeImage('https://images-na.ssl-images-amazon.com/images/I/71tpo3H2w3L._UL500_.jpg', event)">
+          <img src="https://i0.wp.com/blog.glowrecipe.com/wp-content/uploads/2020/06/GLOW_PAPAYA2273_.jpg?fit=1326%2C1160&ssl=1" alt="Thumbnail 3" onclick="changeImage('https://i0.wp.com/blog.glowrecipe.com/wp-content/uploads/2020/06/GLOW_PAPAYA2273_.jpg?fit=1326%2C1160&ssl=1', event)">
+        </div>
+      </div>
+      
+      <!-- Product Details -->
+      <div class="product-details">
+        <h1 class="product-title">Papaya Sorbet Enzyme Cleansing Balm</h1>
+        <p class="product-price">$22.00</p>
+        <hr>
+        <p class="product-description">
+            This balm-to-milky oil harnesses naturally-enzymatic, actively smoothing papaya to satisfy and gently resurface skin, creating the ultimate baby-soft canvas for skincare and makeup. 
+        </p>
+
+        <hr>
+        <p class="important-details">
+            Benefits: Melt dirt & makeup
+            <br>
+            Targets: Texture & dullness
+            <br>
+            Clinically Effective Ingredients: Papaya Enzymes
+        </p>
+        <button class="add-to-cart" id="addToCartButton">Add to Cart</button>
+      </div>
+  </div>
+
+  <!-- JavaScript for Image Gallery -->
+  <script>
+    function changeImage(src, event) {
+        document.getElementById("mainDisplay").src = src;
+
+        // Remove active class from all thumbnails
+        const thumbnails = document.querySelectorAll('.thumbnail-gallery img');
+        thumbnails.forEach(img => img.classList.remove('active'));
+
+        // Add active class to the clicked thumbnail
+        event.target.classList.add('active');
+    }
+
+    document.getElementById('addToCartButton').addEventListener('click', async () => {
+        // No authentication check needed for guest cart
+        const productId = "67631d726d9d0feccd929cc9"; // Example product ID, this would come from the actual product
+        const title = "Papaya Cleansing Balm";
+        const price = 22.00;
+        const imageUrl = "https://www.glowrecipe.com/cdn/shop/files/NEW5_14_24_PDP_CLAIM_REFRESH_PAPAYA_BALM-03_1080x.jpg?v=1718";
+        const qty = 1;
+
+        try {
+            const response = await fetch('http://localhost:1000/api/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // No Auth header needed for guest cart
+                },
+                body: JSON.stringify({ productId, title, price, imageUrl, qty })
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert("Item added to cart successfully!");
+            } else {
+                console.error(result.message);
+                alert("Failed to add item to cart.");
+            }
+        } catch (error) {
+            console.error("Error adding item to cart:", error);
+            alert("An error occurred while adding the item to the cart.");
+        }
+    });
+</script>
+</body>
+</html>

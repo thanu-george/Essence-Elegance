@@ -138,12 +138,11 @@
     </style>
 </head>
 <body>
-    <!-- Main Content -->
     <main>
         <section class="contact-us">
             <h1>Contact Us</h1>
             <p>If you have any questions or need assistance, please feel free to reach out to us.</p>
-            <form action="#" method="POST">
+            <form id="contactForm" >
                 <div class="input-group">
                     <label for="name">Full Name:</label>
                     <input type="text" id="name" name="name" required>
@@ -158,8 +157,58 @@
                 </div>
                 <button type="submit">Submit</button>
             </form>
+            <div id="signupError" style="color: red;"></div> <!-- Error message display -->
         </section>
     </main>
+    <script>
+    document.getElementById('contactForm').addEventListener('submit', async (e) => {
+        e.preventDefault(); // Prevent default form submission
+
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const message = document.getElementById('message').value;
+        const signupError = document.getElementById('signupError'); // Reference the error message div
+
+        if (!name || !email || !message) {
+            signupError.style.color = '#ff416c';
+            signupError.textContent = 'All fields are required!';
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:1000/api/cont/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, email, message }),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                // Show success message
+                signupError.style.color = 'green';
+                signupError.textContent = 'Message submitted successfully!';
+
+                // Reset form fields after successful submission
+                document.getElementById('contactForm').reset();
+
+                // Redirect to another page after 2 seconds
+                setTimeout(() => {
+                    window.location.href = 'i1.html'; // Change this to the correct page
+                }, 1000);
+            } else {
+                signupError.style.color = '#ff416c';
+                signupError.textContent = data.message || 'Please try again.';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            signupError.style.color = '#ff416c';
+            signupError.textContent = 'An error occurred. Please try again.';
+        }
+    });
+    </script>
 
     <!-- Footer -->
     <footer>

@@ -6,85 +6,86 @@
     <title>Skin Type Quiz</title>
     <style>
         body {
-    background-color: #FFE4E1;
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0;
-}
+            background-color: #FFE4E1;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background-color: #ff6f91;
-}
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #ff6f91;
+        }
 
-.navbar h1 {
-    color: #D81B60;
-    font-family: 'Dancing Script', cursive;
-    font-size: 2em;
-}
+        .navbar h1 {
+            color: #D81B60;
+            font-family: 'Dancing Script', cursive;
+            font-size: 2em;
+        }
 
-.navbar ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-}
+        .navbar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
 
-main {
-    padding: 20px;
-    text-align: center;
-}
+        main {
+            padding: 20px;
+            text-align: center;
+        }
 
-h3 {
-    font-weight: bolder;
-    color:#D81B60 ;
-    font-size: 1.8em;
-    margin-bottom: 30px;
-}
+        h3 {
+            font-weight: bolder;
+            color: #D81B60;
+            font-size: 1.8em;
+            margin-bottom: 30px;
+        }
 
-.quiz-box {
-    background-color: white;
-    border-radius: 10px;
-    padding: 20px;
-    margin: 15px auto;
-    width: 80%;
-    max-width: 600px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+        .quiz-box {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px auto;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-.quiz-box p {
-    font-size: 1.2em;
-    color:#D81B60 ;
-    margin-bottom: 10px;
-}
+        .quiz-box p {
+            font-size: 1.2em;
+            color: #D81B60;
+            margin-bottom: 10px;
+        }
 
-.quiz-box label {
-    color:palevioletred ;
-    display: block;
-    margin-bottom: 8px;
-    font-size: 1.1em;
-}
+        .quiz-box label {
+            color: palevioletred;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
 
-.submit {
-    margin-top: 20px;
-}
+        .submit {
+            margin-top: 20px;
+        }
 
-.submit input {
-    background-color: #ff6f91;
-    border: none;
-    padding: 10px 20px;
-    color: white;
-    font-size: 1.2em;
-    cursor: pointer;
-    border-radius: 6px;
-}
+        .submit input {
+            background-color: #ff6f91;
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 6px;
+        }
 
-.submit input:hover {
-    background-color: #ff4f7d;
-}
+        .submit input:hover {
+            background-color: #ff4f7d;
+        }
+
     </style>
 </head>
 <body>
@@ -164,51 +165,150 @@ h3 {
             </div>
         </form>
     </main>
+
     <script>
-        document.getElementById('quiz-form').addEventListener('submit', function(event) {
+        document.getElementById('quiz-form').addEventListener('submit', async function (event) {
             event.preventDefault(); // Prevent form submission and page reload
-            
+
             // Collect all the selected answers
             const form = event.target;
             const answers = Array.from(form.elements)
                 .filter(element => element.checked)
                 .map(element => element.value);
-    
+
             // Count occurrences of each answer type (A, B, C, D, E)
             const answerCounts = answers.reduce((counts, answer) => {
                 counts[answer] = (counts[answer] || 0) + 1;
                 return counts;
             }, {});
-    
+
             // Determine the skin type based on answerCounts
-            const result = determineSkinType(answerCounts);
-    
-            // Display the result
-            const resultContainer = document.createElement('div');
-            resultContainer.className = 'result';
-            resultContainer.innerText = `Your Skin Type: ${result}`;
-            form.appendChild(resultContainer);
+            const skinType = determineSkinType(answerCounts);
+
+            // Map skin types to product IDs
+            const productMapping = {
+                "Oily Skin": "001",
+                "Dry Skin": "002",
+                "Combination Skin": "003",
+                "Normal Skin": "004",
+                "Sensitive Skin": "005",
+            };
+
+            // Get the product ID for the determined skin type
+            const pid = productMapping[skinType];
+
+            // Fetch product details using the product ID
+            const product = await getprod(pid);
+
+            // Display the result in a modal or popup
+            displayResultPopup(skinType, product);
         });
-    
+
         function determineSkinType(counts) {
-            const { A = 0, B = 0, C = 0, D = 0, E = 0 } = counts;
-    
-            if (A >= B && A >= C && A >= D && A >= E) {
-                return 'Oily Skin';
-            } else if (B >= A && B >= C && B >= D && B >= E) {
-                return 'Dry Skin';
-            } else if (C > A && C > B && C > D && C > E) {
-                return 'Combination Skin';
-            } else if (C >= B && C >= D && B > 0 && D > 0) {
-                return 'Normal Skin';
-            } else if (E >= A && E >= B && E >= C && E >= D) {
-                return 'Sensitive Skin';
-            } else {
-                return 'Unable to determine skin type. Try again!';
-            }
+    const { A = 0, B = 0, C = 0, D = 0, E = 0 } = counts;
+
+    // Oily Skin: Mostly A answers
+    if (A > B && A > C && A > D && A > E) {
+        return 'Oily Skin';
+    }
+
+    // Dry Skin: Mostly B answers
+    else if (B > A && B > C && B > D && B > E) {
+        return 'Dry Skin';
+    }
+
+    // Combination Skin: Mostly C answers
+    else if (C > A && C > B && C > D && C > E) {
+        return 'Combination Skin';
+    }
+
+    // Normal Skin: Mostly C answers with some B or D answers
+    else if (C > A && C > B && C > D && C > E && (B > 0 || D > 0)) {
+        return 'Normal Skin';
+    }
+
+    // Sensitive Skin: Mostly E answers
+    else if (E > A && E > B && E > C && E > D) {
+        return 'Sensitive Skin';
+    }
+
+    // Default case if skin type is unclear
+    else {
+        return 'Unable to determine skin type. Try again!';
+    }
+}
+
+        async function getprod(pid) {
+    console.log("Fetching product with ID:", pid);
+    try {
+        const response = await fetch(`http://localhost:1000/api/product/${pid}`);
+        console.log("Response Status:", response.status); // Log status code
+
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
         }
+
+        const product = await response.json();
+        console.log("Fetched Product:", product); // Log fetched product
+        return product;
+    } catch (error) {
+        console.error("Error fetching product:", error);
+        alert("An error occurred while fetching the product. Please try again later.");
+        return null;
+    }
+}
+
+function displayResultPopup(skinType, product) {
+    // Create modal and overlay
+    const modal = document.createElement('div');
+    const overlay = document.createElement('div');
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+    overlay.style.zIndex = '999';
+    overlay.addEventListener('click', () => {
+        modal.remove();
+        overlay.remove();
+    });
+    document.body.appendChild(overlay);
+
+    // Style the modal
+    modal.style.position = 'fixed';
+    modal.style.top = '50%';
+    modal.style.left = '50%';
+    modal.style.transform = 'translate(-50%, -50%)';
+    modal.style.zIndex = '1000';
+    modal.style.backgroundColor = '#fff';
+    modal.style.padding = '20px';
+    modal.style.borderRadius = '10px';
+    modal.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+
+    // Add content to the modal
+    modal.innerHTML = `
+        <h2>Result: ${skinType}</h2>
+        ${
+            product
+                ? `<p>Recommended Product: <strong>${product.name}</strong></p>
+                   <p>Price: $${product.price}</p>`
+                : '<p>Sorry, no products found for this skin type.</p>'
+        }
+        <button id="closeModal">Close</button>
+    `;
+
+    document.body.appendChild(modal);
+
+    // Add event listener for closing modal
+    document.getElementById('closeModal').addEventListener('click', () => {
+        modal.remove();
+        overlay.remove();
+    });
+}
+
+
     </script>
-    
 
 </body>
 </html>

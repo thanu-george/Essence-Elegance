@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Page - Blueberry Bounce Gentle Cleanser</title>
+  <link rel="stylesheet" href="pdesign.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <h1>Essence and Elegance</h1>
+  </div>
+
+  <!-- Product Page Content -->
+  <div class="product-page">
+    <div class="product-container">
+      <!-- Image Gallery -->
+      <div class="image-gallery">
+        <!-- Main Image Display -->
+        <div class="main-image">
+          <img id="mainDisplay" src="https://www.glowrecipe.com/cdn/shop/files/5_14_24_PDP_CLAIM_REFRESH_AVOCADO_CLEANSER-04_1_600x.jpg?v=1718210037" alt="Product Image">
+        </div>
+        <!-- Thumbnail Gallery -->
+        <div class="thumbnail-gallery">
+          <img src="https://www.glowrecipe.com/cdn/shop/files/5_14_24_PDP_CLAIM_REFRESH_AVOCADO_CLEANSER-04_1_600x.jpg?v=1718210037" onclick="changeImage('https://www.glowrecipe.com/cdn/shop/files/5_14_24_PDP_CLAIM_REFRESH_AVOCADO_CLEANSER-04_1_600x.jpg?v=1718210037', event)" class="active">
+          <img src="https://www.glowrecipe.com/cdn/shop/files/5_14_24_PDP_CLAIM_REFRESH_AVOCADO_CLEANSER-01_2_600x.jpg?v=1718210037" alt="Thumbnail 2" onclick="changeImage('https://www.glowrecipe.com/cdn/shop/files/5_14_24_PDP_CLAIM_REFRESH_AVOCADO_CLEANSER-01_2_600x.jpg?v=1718210037', event)">
+          <img src="https://www.glowrecipe.com/cdn/shop/files/5_14_24_PDP_CLAIM_REFRESH_AVOCADO_CLEANSER-03_1_600x.jpg?v=1718210038" alt="Thumbnail 3" onclick="changeImage('https://www.glowrecipe.com/cdn/shop/files/5_14_24_PDP_CLAIM_REFRESH_AVOCADO_CLEANSER-03_1_600x.jpg?v=1718210038', event)">
+        </div>
+      </div>
+      
+      <!-- Product Details -->
+      <div class="product-details">
+        <h1 class="product-title">AVOCADO CERAMIDE CLEANSER</h1>
+        <p class="product-price">$28.00</p>
+        <hr>
+        <p class="product-description">
+            With an improved creamy gel-to-foam texture and now hyaluronic acid, this nourishing cleanser gently yet effectively melts away impurities to reveal softer, refreshed skin.
+        </p>
+
+        <hr>
+        <p class="important-details">
+            Benefits: Gently cleanse & nourish
+            <br>
+            Targets: Dryness & redness
+            <br>
+            Clinically Effective Ingredients: Ceramides
+        </p>
+        <button class="add-to-cart" id="addToCartButton">Add to Cart</button>
+      </div>
+  </div>
+
+  <!-- JavaScript for Image Gallery -->
+  <script>
+    function changeImage(src, event) {
+        document.getElementById("mainDisplay").src = src;
+
+        // Remove active class from all thumbnails
+        const thumbnails = document.querySelectorAll('.thumbnail-gallery img');
+        thumbnails.forEach(img => img.classList.remove('active'));
+
+        // Add active class to the clicked thumbnail
+        event.target.classList.add('active');
+    }
+
+    document.getElementById('addToCartButton').addEventListener('click', async () => {
+        // No authentication check needed for guest cart
+        const productId = "67631d3c6d9d0feccd929cc7"; // Example product ID, this would come from the actual product
+        const title = "AVOCADO CERAMIDE CLEANSER";
+        const price = 28.00;
+        const imageUrl = "https://www.glowrecipe.com/cdn/shop/files/5_14_24_PDP_CLAIM_REFRESH_AVOCADO_CLEANSER-04_1_600x.jpg?v=1718210037";
+        const qty = 1;
+
+        try {
+            const response = await fetch('http://localhost:1000/api/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // No Auth header needed for guest cart
+                },
+                body: JSON.stringify({ productId, title, price, imageUrl, qty })
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert("Item added to cart successfully!");
+            } else {
+                console.error(result.message);
+                alert("Failed to add item to cart.");
+            }
+        } catch (error) {
+            console.error("Error adding item to cart:", error);
+            alert("An error occurred while adding the item to the cart.");
+        }
+    });
+</script>
+</body>
+</html>

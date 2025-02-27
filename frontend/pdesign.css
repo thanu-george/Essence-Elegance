@@ -1,0 +1,133 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+  }
+
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #ff6f91;
+  }
+  .navbar h1 {
+    color: white;
+    font-family: 'Dancing Script', cursive;
+    font-size: 2em;
+  }
+  .navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+  }
+  .navbar ul li {
+    margin-left: 20px;
+  }
+  .navbar ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 1.1em;
+  }
+
+  .product-page {
+    max-width: 1200px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  /* Layout styling */
+  .product-container {
+    display: flex;
+    gap: 80px;
+    flex-wrap: wrap;
+    margin-left: 100px;
+  }
+  /* Main image and thumbnail gallery */
+  .main-image img {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    margin-top: 50px;
+  }
+
+  .thumbnail-gallery {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .thumbnail-gallery img {
+    width: 90px;
+    height: 90px;
+    border-radius: 4px;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+  }
+  .thumbnail-gallery img.active {
+    opacity: 1;
+    border: 2px solid #b988b7;
+  }
+
+  /* Product details */
+  .product-details {
+    max-width: 500px;
+  }
+  hr {
+    border: none;
+    border-top: 2px solid #ff6f91;
+    width: 100%;
+    margin-top: 50px;
+    margin-left: 50px;
+  }
+  .important-details{
+    font-weight: bold;
+    color: #3c3c3c;
+    margin-top: 50px;
+    margin-left: 60px;
+    line-height: 1.8;
+  }
+  .product-title {
+    font-size: 26px;
+    font-weight: bold;
+    color: #ff6f91;
+    margin-top: 50px;
+    margin-left: 60px;
+  }
+
+  .product-price {
+    font-size: 22px;
+    color: #070f18;
+    margin-top: 30px;
+    margin-left: 60px;
+  }
+  .product-description {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 20px;
+    margin-top: 50px;
+    margin-left: 60px;
+  }
+
+  .add-to-cart {
+    background-color:#ff6f91;
+    color: #fff;
+    padding: 14px 28px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 50px;
+    margin-left: 60px;
+  }
+  .add-to-cart:hover {
+    background-color: pink;
+  }

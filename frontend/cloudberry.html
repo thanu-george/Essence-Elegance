@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Page - Cloudberry bright essence</title>
+  <link rel="stylesheet" href="pdesign.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <h1>Essence and Elegance</h1>
+  </div>
+
+  <!-- Product Page Content -->
+  <div class="product-page">
+    <div class="product-container">
+      <!-- Image Gallery -->
+      <div class="image-gallery">
+        <!-- Main Image Display -->
+        <div class="main-image">
+          <img id="mainDisplay" src="https://www.glowrecipe.com/cdn/shop/files/5_14_24_PDP_CLAIM_REFRESH_CLOUDBERRY-08_600x.jpg?v=1718212429" alt="Product Image">
+        </div>
+        <!-- Thumbnail Gallery -->
+        <div class="thumbnail-gallery">
+          <img src="https://www.glowrecipe.com/cdn/shop/files/5_14_24_PDP_CLAIM_REFRESH_CLOUDBERRY-08_600x.jpg?v=1718212429" onclick="changeImage('https://www.glowrecipe.com/cdn/shop/files/5_14_24_PDP_CLAIM_REFRESH_CLOUDBERRY-08_600x.jpg?v=1718212429', event)" class="active">
+          <img src="https://www.glowrecipe.com/cdn/shop/files/5_14_24_PDP_CLAIM_REFRESH_CLOUDBERRY-01_048bd488-d02b-4d90-a084-3b938650a026_600x.jpg?v=1718212424" alt="Thumbnail 2" onclick="changeImage('https://www.glowrecipe.com/cdn/shop/files/5_14_24_PDP_CLAIM_REFRESH_CLOUDBERRY-01_048bd488-d02b-4d90-a084-3b938650a026_600x.jpg?v=1718212424', event)">
+          <img src="https://www.glowrecipe.com/cdn/shop/files/5_14_24_PDP_CLAIM_REFRESH_CLOUDBERRY-02_1080x.jpg?v=1718212427" alt="Thumbnail 3" onclick="changeImage('https://www.glowrecipe.com/cdn/shop/files/5_14_24_PDP_CLAIM_REFRESH_CLOUDBERRY-02_1080x.jpg?v=1718212427', event)">
+        </div>
+      </div>
+      
+      <!-- Product Details -->
+      <div class="product-details">
+        <h1 class="product-title">Cloudberry bright essence</h1>
+        <p class="product-price">$38.00</p>
+        <hr>
+        <p class="product-description">
+            This powerful brightening treatment helps to even tone, reduce the appearance of hyperpigmentation, and hydrates and softens dull, dehydrated skin for visibly enhanced radiance.
+        </p>
+
+        <hr>
+        <p class="important-details">
+            Benefits: Brighten & even tone
+            <br>
+            Targets: Dullness & uneven tone
+            <br>
+            Clinically Effective Ingredients: CoQ10 (Coenzyme Q10)
+        </p> 
+        <button class="add-to-cart" id="addToCartButton">Add to Cart</button>
+      </div>
+  </div>
+  <script>
+    function changeImage(src, event) {
+        document.getElementById("mainDisplay").src = src;
+
+        // Remove active class from all thumbnails
+        const thumbnails = document.querySelectorAll('.thumbnail-gallery img');
+        thumbnails.forEach(img => img.classList.remove('active'));
+
+        // Add active class to the clicked thumbnail
+        event.target.classList.add('active');
+    }
+
+    document.getElementById('addToCartButton').addEventListener('click', async () => {
+        // No authentication check needed for guest cart
+        const productId = "67631fba6d9d0feccd929cdb"; // Example product ID, this would come from the actual product
+        const title = "Cloudberry bright essence";
+        const price = 38.00;
+        const imageUrl = "https://www.glowrecipe.com/cdn/shop/files/5_14_24_PDP_CLAIM_REFRESH_CLOUDBERRY-08_600x.jpg?v=1718212429";
+        const qty = 1;
+
+        try {
+            const response = await fetch('http://localhost:1000/api/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // No Auth header needed for guest cart
+                },
+                body: JSON.stringify({ productId, title, price, imageUrl, qty })
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert("Item added to cart successfully!");
+            } else {
+                console.error(result.message);
+                alert("Failed to add item to cart.");
+            }
+        } catch (error) {
+            console.error("Error adding item to cart:", error);
+            alert("An error occurred while adding the item to the cart.");
+        }
+    });
+</script>
+</body>
+</html>

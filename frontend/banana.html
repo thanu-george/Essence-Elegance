@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Page - Banana Souffle Moisturiser</title>
+  <link rel="stylesheet" href="pdesign.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <div class="navbar">
+    <h1>Essence and Elegance</h1>
+  </div>
+
+  <!-- Product Page Content -->
+  <div class="product-page">
+    <div class="product-container">
+      <!-- Image Gallery -->
+      <div class="image-gallery">
+        <!-- Main Image Display -->
+        <div class="main-image">
+          <img id="mainDisplay" src="https://www.glowrecipe.com/cdn/shop/files/10_23_24_LIP_LAUNCH_PDP2_600x.png?v=1729545607" alt="Product Image">
+        </div>
+        <!-- Thumbnail Gallery -->
+        <div class="thumbnail-gallery">
+          <img src="https://www.glowrecipe.com/cdn/shop/files/10_23_24_LIP_LAUNCH_PDP2_600x.png?v=1729545607" onclick="changeImage('https://www.glowrecipe.com/cdn/shop/files/10_23_24_LIP_LAUNCH_PDP2_600x.png?v=1729545607', event)" class="active">
+          <img src="https://www.glowrecipe.com/cdn/shop/files/10_23_24_BANANA_LIP_LAUNCH_PDP1_600x.png?v=1729545607" alt="Thumbnail 2" onclick="changeImage('https://www.glowrecipe.com/cdn/shop/files/10_23_24_BANANA_LIP_LAUNCH_PDP1_600x.png?v=1729545607', event)">
+          <img src="https://www.glowrecipe.com/cdn/shop/files/10_23_24_BANANA_LIP_LAUNCH_PDP2_600x.png?v=1729545607" alt="Thumbnail 3" onclick="changeImage('https://www.glowrecipe.com/cdn/shop/files/10_23_24_BANANA_LIP_LAUNCH_PDP2_600x.png?v=1729545607', event)">
+        </div>
+      </div>
+      
+      <!-- Product Details -->
+      <div class="product-details">
+        <h1 class="product-title">Banana Souffle Moisturiser</h1>
+        <p class="product-price">$34.00</p>
+        <hr>
+        <p class="product-description">
+            Banana Soufflé Moisture Cream is a soothing, lightweight moisturizer that resets, replenishes, and seals in a boost of lasting hydration without clogging pores, for all skin types, even acne-prone skin
+        </p>
+
+        <hr>
+        <p class="important-details">
+            Benefits: Gives hydration and nourishment
+            <br>
+            Targets: dry skin , agening skin
+            <br>
+            Clinically Effective Ingredients: Vitamin E, banana extract , jojoba oil
+        </p> 
+        <button class="add-to-cart" id="addToCartButton">Add to Cart</button>
+      </div>
+  </div>
+
+  <script>
+    function changeImage(src, event) {
+        document.getElementById("mainDisplay").src = src;
+
+        // Remove active class from all thumbnails
+        const thumbnails = document.querySelectorAll('.thumbnail-gallery img');
+        thumbnails.forEach(img => img.classList.remove('active'));
+
+        // Add active class to the clicked thumbnail
+        event.target.classList.add('active');
+    }
+
+    document.getElementById('addToCartButton').addEventListener('click', async () => {
+        // No authentication check needed for guest cart
+        const productId = "67631e416d9d0feccd929ccf"; // Example product ID, this would come from the actual product
+        const title = "Banana Souffle Moisturiser";
+        const price = 34.00;
+        const imageUrl = "https://www.glowrecipe.com/cdn/shop/files/10_23_24_LIP_LAUNCH_PDP2_1080x.png?v=1729545607";
+        const qty = 1;
+
+        try {
+            const response = await fetch('http://localhost:1000/api/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // No Auth header needed for guest cart
+                },
+                body: JSON.stringify({ productId, title, price, imageUrl, qty })
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert("Item added to cart successfully!");
+            } else {
+                console.error(result.message);
+                alert("Failed to add item to cart.");
+            }
+        } catch (error) {
+            console.error("Error adding item to cart:", error);
+            alert("An error occurred while adding the item to the cart.");
+        }
+    });
+</script>
+</body>
+</html>

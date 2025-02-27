@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Essence and Elegance</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fcefee;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #ff6f91;
+        }
+        .navbar h1 {
+            color: #D81B60;
+            font-family: 'Dancing Script', cursive;
+            font-size: 2em;
+        }
+
+        /* Cart Section */
+        .cart-container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .cart-header h2 {
+            font-size: 2.5em;
+            color: #D81B60;
+        }
+
+        /* Cart Items */
+        .cart-items {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .cart-items th, .cart-items td {
+            padding: 15px;
+            text-align: center;
+        }
+        .cart-items th {
+            background-color: #ff6f91;
+            color: white;
+            font-size: 1.2em;
+        }
+        .cart-items td {
+            background-color: #f9c2d1;
+            font-size: 1em;
+        }
+        .cart-items img {
+            width: 80px;
+            height: auto;
+        }
+
+        /* Total Section */
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .cart-total span {
+            color: #D81B60;
+        }
+
+        /* Buttons */
+        .cart-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .cart-buttons a {
+            background-color: #D81B60;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1.2em;
+        }
+        .cart-buttons a:hover {
+            background-color: #ff6f91;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #ff6f91;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+        .footer p {
+            margin: 0;
+            font-size: 1em;
+        }
+
+        /* popup */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            z-index: 1000;
+            text-align: center;
+        }
+        .popup-content {
+            font-family: 'Poppins', sans-serif;
+            color: #D81B60;
+        }
+        .popup button {
+            background-color: #D81B60;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .popup button:hover {
+            background-color: #ff6f91;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <h1>Essence and Elegance</h1>
+    </div>
+
+    <!-- Cart Section -->
+    <div class="cart-container">
+        <div class="cart-header">
+            <h2>Your Shopping Cart</h2>
+        </div>
+
+        <table class="cart-items">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Cart items will be dynamically populated here -->
+            </tbody>
+        </table>
+
+        <div class="cart-total">
+            <span>Total: $0.00</span>
+        </div>
+
+        <div class="cart-buttons">
+            <button id="checkout-btn">Proceed to Checkout</button>
+            <a href="#" id="clear-cart-btn">Clear Cart</a>
+        </div>
+    </div>
+
+    <div id="billing-popup" class="popup">
+        <div class="popup-content">
+            <h2>Billing Summary</h2>
+            <div id="billing-details"></div>
+            <button id="confirm-order-btn">Confirm Your Order</button>
+        </div>
+    </div>
+    
+    <div id="confirmation-popup" class="popup">
+        <div class="popup-content">
+            <h2>Your Order is Confirmed!</h2>
+            <p>Thank you for shopping with us!</p>
+            <button id="close-popup-btn">Close</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2024 Essence and Elegance. All Rights Reserved.</p>
+    </div>
+
+    <script>
+        const cartTableBody = document.querySelector(".cart-items tbody");
+        const cartTotalElement = document.querySelector(".cart-total span");
+
+        async function fetchCart() {
+            try {
+                const response = await fetch('http://localhost:1000/api/cart/cart', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const cartData = await response.json(); // Parse the JSON response
+                console.log("Cart Response:", cartData); // Log the entire response for debugging
+
+                // Access the items from the cart object
+                const cartItems = cartData.cart.items; // Adjusted to access the items correctly
+                populateCart(cartItems, calculateTotal(cartItems)); // Pass the items to populateCart
+            } catch (error) {
+                console.error("Error fetching cart data:", error);
+            }
+        }
+
+        // Calculate Total Price
+        function calculateTotal(cartItems) {
+            return cartItems.reduce((total, item) => total + (item.price * item.qty), 0);
+        }
+
+        // Populate Cart Items with buttons to increase/decrease quantity
+        function populateCart(cartItems, total) {
+            cartTableBody.innerHTML = ''; // Clear existing rows
+
+            cartItems.forEach(item => {
+                const rowTotal = item.price * item.qty;
+
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>
+                        <img src="${item.imageUrl}" alt="${item.title}" style="width: 80px; height: auto;">
+                        ${item.title}
+                    </td>
+                    <td>$${item.price.toFixed(2)}</td>
+                    <td>
+                        <button class="decrease-qty" data-id="${item.productId}">-</button>
+                        <span>${item.qty}</span> <!-- Display quantity -->
+                        <button class="increase-qty" data-id="${item.productId}">+</button>
+                    </td>
+                    <td>$${rowTotal.toFixed(2)}</td>
+                    <td><a href="#" data-id="${item.productId}" class="remove-item">Remove</a></td>
+                `;
+                cartTableBody.appendChild(row);
+            });
+
+            updateTotalDisplay(total);
+            addEventListeners(); // Reattach event listeners to buttons
+        }
+
+        // Update Total Display
+        function updateTotalDisplay(total) {
+            cartTotalElement.textContent = `Total: $${total.toFixed(2)}`;
+        }
+
+        // Add Event Listeners for Quantity Change, Remove Item, and Clear Cart
+        function addEventListeners() {
+            // Increase quantity
+            cartTableBody.querySelectorAll(".increase-qty").forEach(button => {
+                button.addEventListener("click", async (event) => {
+                    const productId = event.target.dataset.id;
+                    await adjustProductQty(productId, 1); // Increase quantity
+                });
+            });
+
+            // Decrease quantity
+            cartTableBody.querySelectorAll(".decrease-qty").forEach(button => {
+                button.addEventListener("click", async (event) => {
+                    const productId = event.target.dataset.id;
+                    await adjustProductQty(productId, -1); // Decrease quantity
+                });
+            });
+
+            // Remove item
+            cartTableBody.querySelectorAll(".remove-item").forEach(link => {
+                link.addEventListener("click", async (event) => {
+                    event.preventDefault();
+                    const productId = event.target.dataset.id;
+                    await removeItemFromCart(productId);
+                });
+            });
+
+            // Clear Cart Button
+            document.querySelector("#clear-cart-btn").addEventListener("click", async () => {
+                await clearCart();
+            });
+        }
+
+        // Adjust Product Quantity in Cart when clicking Increase/Decrease buttons
+        async function adjustProductQty(productId, qtyChange) {
+            try {
+                const response = await fetch('http://localhost:1000/api/cart/adjust', { // Adjust the URL as needed
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ productId, qtyChange }) // qtyChange should be 1 for increase, -1 for decrease
+                });
+                const result = await response.json();
+                if (response.ok) {
+                    fetchCart(); // Refresh the cart after adjustment
+                } else {
+                    console.error("Error adjusting item quantity:", result.message);
+                }
+            } catch (error) {
+                console.error("Error adjusting item quantity:", error);
+            }
+        }
+
+        // Remove Item from Cart
+        async function removeItemFromCart(productId) {
+            try {
+                const response = await fetch(`http://localhost:1000/api/cart/remove/${productId}`, { // Adjust the URL as needed
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                const result = await response.json();
+                if (response.ok) {
+                    fetchCart();
+                } else {
+                    console.error("Error removing item from cart:", result.message);
+                }
+            } catch (error) {
+                console.error("Error removing item from cart:", error);
+            }
+        }
+
+        // Clear Cart
+        async function clearCart() {
+            try {
+                const response = await fetch('http://localhost:1000/api/cart/clear', { // Adjust the URL as needed
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                const result = await response.json();
+                if (response.ok) {
+                    fetchCart();
+                } else {
+                    console.error("Error clearing cart:", result.message);
+                }
+            } catch (error) {
+                console.error("Error clearing cart:", error);
+            }
+        }
+
+        // Initial Fetch of Cart Items
+        fetchCart();
+        
+        // pop up logic 
+            document.querySelector("#checkout-btn").addEventListener("click", function() {
+            const cartRows = document.querySelectorAll(".cart-items tbody tr");
+            let billDetails = "<ul>";
+            let total = 0;
+        
+            cartRows.forEach(row => {
+                const itemName = row.cells[0].innerText;
+                const itemPrice = parseFloat(row.cells[1].innerText.replace('$', ''));
+                const itemQty = parseInt(row.cells[2].querySelector("span").innerText);
+                const itemTotal = itemPrice * itemQty;
+                total += itemTotal;
+            
+                billDetails += `<li>${itemName} - ${itemQty} x $${itemPrice.toFixed(2)} = $${itemTotal.toFixed(2)}</li>`;
+            });
+        
+            billDetails += `</ul><p><strong>Total: $${total.toFixed(2)}</strong></p>`;
+            document.querySelector("#billing-details").innerHTML = billDetails;
+            document.querySelector("#billing-popup").style.display = "block";
+            });
+    
+            document.querySelector("#confirm-order-btn").addEventListener("click", function() {
+            document.querySelector("#billing-popup").style.display = "none";
+            document.querySelector("#confirmation-popup").style.display = "block";
+            });
+    
+            document.querySelector("#close-popup-btn").addEventListener("click", function() {
+            document.querySelector("#confirmation-popup").style.display = "none";
+        });
+    </script>
+</body>
